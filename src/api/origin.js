@@ -1,2 +1,2 @@
-const origin = 'http://192.168.43.193/';
+const origin = 'http://www.le-bon-ecommerce.fr/';
 export default origin;
