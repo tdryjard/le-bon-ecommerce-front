@@ -105,7 +105,7 @@ export const CheckoutForm = ({ priceId, title, slogan, describe, template, publi
                         const response = await fetch(`${url}/secret`)
                         if (response) {
                             const responseJson = await response.json()
-                            const clientSecret = responseJson.client_secret;
+                            const clientSecret = await responseJson.client_secret;
                             paymenthod(clientSecret, name, logoId, illustrationId)
                         }
                     }
@@ -204,9 +204,9 @@ export const CheckoutForm = ({ priceId, title, slogan, describe, template, publi
                         <h1 className="titlePurchase">Oups, une erreur est survenue</h1>
                         <h3 style={{ marginLeft: '40px', marginTop: '0' }} className="textPurchase">Désolé pour la gêne occasionnée<br /><br /></h3>
                         {window.innerWidth > 1250 ?
-                            <button style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Re commander</button>
+                            <button onClick={() => {window.location.reload()}} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Re commander</button>
                             :
-                            <button style={{ marginTop: '50px', marginBottom: '50px' }} className="button">Re commander</button>}
+                            <button onClick={() => {window.location.reload()}} style={{ marginTop: '50px', marginBottom: '50px' }} className="button">Re commander</button>}
                     </div>
                     : validPurchase &&
                     <div className="contentPurchase">
