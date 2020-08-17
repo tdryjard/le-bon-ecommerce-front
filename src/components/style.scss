@@ -1,0 +1,390 @@
+:root{
+    --first-color: #e0e0e0;
+    --second-color: #222222;
+}
+
+input::placeholder{
+    color: rgb(71, 71, 71);
+    font-family: 'Poppins', sans-serif;
+}
+
+button:focus {outline:0;}
+
+.container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.column{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.input{
+    background-color: white;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
+      0 1px 0 #c0c0c0;
+      font-family: 'Poppins', sans-serif;
+    color: rgb(46, 46, 46);
+    height: 30px;
+    width: 200px;
+    padding: 5px 25px 5px 25px;
+}
+
+.text{
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+}
+
+.title{
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.link{
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    color: var(--second-color);
+    text-decoration: none;
+    &:hover{
+        border-bottom: 1px solid rgb(27, 27, 27);
+    }
+}
+
+.linkOn{
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    color: var(--second-color);
+    border-bottom: 1px solid rgb(27, 27, 27);
+    text-decoration: none;
+}
+
+.button{
+    box-shadow: 2px 6px 9px rgba(50, 50, 93, 0.06), 1px 2px 5px rgba(0, 0, 0, 0.08);
+    font-family: 'Sen', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(36, 36, 36);
+    background: linear-gradient(148deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 58%);
+    border-radius: 10px;
+    border:rgb(36, 36, 36) 2px solid;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.button:hover{
+    border: rgb(255, 255, 255) 2px solid;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(148deg, rgb(32, 58, 145) 0%, rgb(24, 52, 116) 58%);
+}
+
+.buttonActive{
+    box-shadow: 2px 6px 9px rgba(50, 50, 93, 0.06), 1px 2px 5px rgba(0, 0, 0, 0.08);
+    font-family: 'Sen', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(148deg, rgb(32, 58, 145) 0%, rgb(24, 52, 116) 58%);
+    border-radius: 10px;
+    border: rgb(255, 255, 255) 2px solid;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.buttonBuy{
+    box-shadow: 2px 6px 9px rgba(50, 50, 93, 0.06), 1px 2px 5px rgba(0, 0, 0, 0.08);
+    font-family: 'Sen', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(148deg, rgb(232, 131, 133) 0%, rgb(223, 85, 97) 58%);
+    border-radius: 10px;
+    border:rgb(255, 255, 255) 3px solid;
+    padding: 15px;
+    cursor: pointer;
+    margin-bottom: 35px;
+    text-decoration: none;
+}
+
+.verticalTiret{
+    height: 1px;
+    background-color: black;
+    width: 20px;
+    transform: rotate(90deg);
+}
+
+.illustrationLanding{
+    width: 100%;
+    height: auto;
+    margin-top: 50px;
+    margin-bottom: 80px;
+}
+
+
+
+
+
+
+//BUY
+
+.containerAllBuy{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.containerBuy{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+
+.StripeElement--webkit-autofill {
+    background: transparent !important;
+  }
+  
+  .StripeElement {
+    width: 100%;
+    padding: 11px 15px 11px 0;
+  }
+
+.inputPricingCard{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0;
+    border-style: none;
+    background-color: rgb(255, 255, 255);
+    will-change: opacity, transform;
+    box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+    height: 50px;
+    width: 50%;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+    color: rgb(36, 36, 36);
+    font-family: 'Sen', sans-serif;
+    text-align: center;
+    font-size: 18px;
+}
+
+.buttonLinkTelegram{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    box-shadow: 4px 4px 7px rgb(190, 190, 190),
+                -8px -8px 10px rgb(255, 255, 255);
+    padding: 5px;
+    border-radius: 20px;
+    height: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 40%;
+}
+
+.containerTelegram{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 4px 4px 7px rgb(190, 190, 190),
+                -8px -8px 10px rgb(255, 255, 255);
+    padding: 5px;
+    border-radius: 20px;
+    width: 80%;
+}
+
+.imgProductBuy{
+    width: 35%;
+    height: auto;
+    margin-right: 40px;
+}
+
+.errorPay{
+    position: absolute;
+    top: -70px;
+    font-size: 20px;
+    color: rgb(255, 49, 49);
+    background-color: white;
+    border-radius: 5px;
+    padding: 20px 10px 20px 10px;
+    width: 200px;
+}
+
+//BUY
+
+
+// LANDING
+
+.containerHeadLanding{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+    background-image: url('./images/illustration.png');
+    background-position: top;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    min-height: 60vh;
+}
+
+.containerTextHeadLanding{
+    width: 50%;
+
+}
+
+.containerLogoLanding{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 300px;
+    width: 100%;
+    animation: logoLanding 0.5s;
+}
+
+@keyframes logoLanding{
+    from{
+        position: absolute;
+        top: -300px
+    }
+    to{
+        position: relative;
+        top: 0;
+    }
+}
+
+.logoLanding{
+    height: 80%;
+    width: auto;
+}
+
+.titleLogo{
+    font-size: 25px;
+    background-color: rgb(255, 255, 255);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.containerButtonLanding{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 80%;
+    margin-top: 25px;
+}
+
+.containerBottomLanding{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    background: linear-gradient(148deg, rgba(233,138,138,1) 0%, rgba(224,86,97,1) 83%);
+    min-height: 40vh;
+    margin-top: 80px;
+}
+
+.containerInfoLanding{
+    background-color: white;
+    width: 60%;
+    padding: 5%;
+    box-shadow: 2px 2px 5px rgb(145, 0, 0);
+    margin-top: 50px;
+    margin-bottom: 50px;
+    animation: containerLanding 0.5s;
+}
+
+@keyframes containerLanding{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 100%;
+    }
+}
+
+.linkLanding{
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+    text-decoration: underline;
+    color: rgb(24, 24, 24);
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1250px){
+    .containerTextHeadLanding{
+        width: 90%;
+    }
+    .text{
+        font-size: 16px !important;
+    }
+    .title{
+        font-size: 22px;
+    }
+    .buttonBuy{
+        font-size: 16px;
+    }
+    .containerInfoLanding{
+        width: 90%;
+        padding: 5%;
+        margin-bottom: 0;
+    }
+    .containerLogoLanding{
+        width: 90%;
+        padding: 5%;
+        height: 200px;
+    }
+    .logoLanding{
+        width: 180px;
+        height: auto;
+    }
+    .titleLogo{
+        margin-right: 0 !important;
+    }
+    .containerAllBuy{
+        flex-direction: column;
+    }
+    .inputPricingCard{
+        width: 90%;
+    }
+    .imgProductBuy{
+        margin: 0;
+        width: 80%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+}
