@@ -107,11 +107,10 @@ export const CheckoutForm = ({ priceId, title, slogan, describe, template, publi
                             const responseJson = await response.json()
                             const clientSecret = await responseJson.client_secret;
                             paymenthod(clientSecret, name, logoId, illustrationId)
-                        }
-                    }
-                }
-            }
-            setErrorData(true)
+                        } else setErrorData(true)
+                    } else setErrorData(true)
+                } else setErrorData(true)
+            } else setErrorData(true)
         }
 
     }
