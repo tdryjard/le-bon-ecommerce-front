@@ -1,2 +1,2 @@
-const origin = 'http://www.le-bon-ecommerce.fr/';
+const origin = 'https://le-bon-ecommerce.fr';
 export default origin;
