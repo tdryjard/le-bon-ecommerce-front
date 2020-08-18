@@ -1,0 +1,25 @@
+.containerNavbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    top: 0;
+    padding-bottom: 20px;
+    position: fixed;
+    background-color: var(--first-color);
+    box-shadow: 0 3px 2px rgb(255, 251, 243);
+}
+
+.rowNavbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.logoNavbar{
+    height: 150px;
+    margin-top: 10px;
+    width: auto;
+}

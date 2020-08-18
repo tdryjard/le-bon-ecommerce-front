@@ -10,6 +10,9 @@ export const Landing = () => {
     const [referencement, setReferencement] = useState(false)
     const [domaine, setDomaine] = useState(false)
     const [hebergement, sethebergement] = useState(false)
+    const [viewTemplate, setViewTemplate] = useState(0)
+    const [viewAdmin, setViewAdmin] = useState(false)
+    const [viewShop, setViewShop] = useState(false)
 
     const activeSection = (option: string) => {
         if (option !== 'administrable') {
@@ -60,6 +63,62 @@ export const Landing = () => {
                 <meta name="robots" content="index, follow" />
             </head>
             <div className="containerHeadLanding">
+                {viewTemplate === 1 &&
+                    <div onClick={() => { setViewTemplate(0) }} className="containerViewTemplate">
+                        <button className="buttonClosePurchase">Fermer</button>
+                        <img className="templatePurchaseView" src={require('../purchase/images/template1.png')} alt="template 1" />
+                        <img onClick={(e) => { return (setViewTemplate(2), e.stopPropagation()) }} className="arrowNext" src={require('../images/next.png')} alt="suivant" />
+                        <p style={{ color: 'white' }} className="title">Template 1</p>
+                    </div>}
+                {viewTemplate === 2 &&
+                    <div onClick={() => { setViewTemplate(0) }} className="containerViewTemplate">
+                        <img onClick={(e) => { return (setViewTemplate(1), e.stopPropagation()) }} className="arrowPreview" src={require('../images/preview.png')} alt="précédent" />
+                        <button className="buttonClosePurchase">Fermer</button>
+                        <img style={{ height: '70%', width: 'auto' }} className="templatePurchaseView" src={require('../purchase/images/template-mobile1.png')} alt="template 1" />
+                        <img onClick={(e) => { return (setViewTemplate(3), e.stopPropagation()) }} className="arrowNext" src={require('../images/next.png')} alt="suivant" />
+                        <p style={{ color: 'white' }} className="title">Template 1</p>
+                    </div>}
+                {viewTemplate === 3 &&
+                    <div onClick={() => { setViewTemplate(0) }} className="containerViewTemplate">
+                        <img onClick={(e) => { return (setViewTemplate(2), e.stopPropagation()) }} className="arrowPreview" src={require('../images/preview.png')} alt="précédent" />
+                        <button className="buttonClosePurchase">Fermer</button>
+                        <img className="templatePurchaseView" src={require('../purchase/images/template2.png')} alt="template 1" />
+                        <img onClick={(e) => { return (setViewTemplate(4), e.stopPropagation()) }} className="arrowNext" src={require('../images/next.png')} alt="suivant" />
+                        <p style={{ color: 'white' }} className="title">Template 2</p>
+                    </div>}
+                {viewTemplate === 4 &&
+                    <div onClick={() => { setViewTemplate(0) }} className="containerViewTemplate">
+                        <img onClick={(e) => { return (setViewTemplate(3), e.stopPropagation()) }} className="arrowPreview" src={require('../images/preview.png')} alt="précédent" />
+                        <button className="buttonClosePurchase">Fermer</button>
+                        <img style={{ height: '70%', width: 'auto' }} className="templatePurchaseView" src={require('../purchase/images/template-mobile2.png')} alt="template 1" />
+                        <img onClick={(e) => { return (setViewTemplate(5), e.stopPropagation()) }} className="arrowNext" src={require('../images/next.png')} alt="suivant" />
+                        <p style={{ color: 'white' }} className="title">Template 2</p>
+                    </div>}
+                {viewTemplate === 5 &&
+                    <div onClick={() => { setViewTemplate(0) }} className="containerViewTemplate">
+                        <img onClick={(e) => { return (setViewTemplate(4), e.stopPropagation()) }} className="arrowPreview" src={require('../images/preview.png')} alt="précédent" />
+                        <button className="buttonClosePurchase">Fermer</button>
+                        <img className="templatePurchaseView" src={require('../purchase/images/template3.png')} alt="template 1" />
+                        <img onClick={(e) => { return (setViewTemplate(6), e.stopPropagation()) }} className="arrowNext" src={require('../images/next.png')} alt="suivant" />
+                        <p style={{ color: 'white' }} className="title">Template 3</p>
+                    </div>}
+                {viewTemplate === 6 &&
+                    <div onClick={() => { setViewTemplate(0) }} className="containerViewTemplate">
+                        <img onClick={(e) => { return (setViewTemplate(5), e.stopPropagation()) }} className="arrowPreview" src={require('../images/preview.png')} alt="précédent" />
+                        <button className="buttonClosePurchase">Fermer</button>
+                        <img style={{ height: '70%', width: 'auto' }} className="templatePurchaseView" src={require('../purchase/images/template-mobile3.png')} alt="template 1" />
+                        <p className="title">Template 3</p>
+                    </div>}
+                {viewAdmin &&
+                    <div onClick={() => { setViewAdmin(false) }} className="containerViewTemplate">
+                        <button className="buttonClosePurchase">Fermer</button>
+                        <img className="demoAdminView" src={require('../images/demo-admin.gif')} alt="démo partie admin" />
+                    </div>}
+                {viewShop &&
+                    <div onClick={() => { setViewShop(false) }} className="containerViewTemplate">
+                        <button className="buttonClosePurchase">Fermer</button>
+                        <img className="demoAdminView" src={require('../images/demo-shop.gif')} alt="démo partie admin" />
+                    </div>}
                 <div className="containerLogoLanding">
                     <img className="logoLanding" src={require('../images/logo.png')} alt="logo le bon ecommerce" />
                     <h2 style={{ color: '#2e407a', marginRight: '15%' }} className="titleLogo">LE BON <span style={{ color: '#cb4a4a' }}>E-COMMERCE</span></h2>
@@ -111,7 +170,7 @@ export const Landing = () => {
                             <li>Modifier un article déjà créé</li>
                             <li>Supprimer un article</li>
                         </ul>
-                        <button style={{ marginTop: '35px' }} className="button">Voir démo</button>
+                        <button onClick={() => { setViewAdmin(true) }} style={{ marginTop: '35px' }} className="button">Voir démo</button>
                     </div>}
 
                 {boutique &&
@@ -122,8 +181,8 @@ export const Landing = () => {
                     Tous vos articles seront affichés sur cette partie avec leur image principale, leur prix et leur nom<br /><br />
                     Si un visiteur de votre site clique sur l'article, il aura alors accès à tous les détails de l'article que vous aurez référencé<br /><br />
                     Il pourra alors cliquer sur le bouton "commander" et payer l'article</p>
-                        <p className="linkLanding">gestion commandes et paiements</p>
-                        <button style={{ marginTop: '35px' }} className="button">Voir démo</button>
+                        <p onClick={() => {return(setBoutique(false), setGestion(true))}} className="linkLanding">gestion commandes et paiements</p>
+                        <button onClick={() => {setViewShop(true)}} style={{ marginTop: '35px' }} className="button">Voir démo</button>
                     </div>}
 
                 {custom &&
@@ -139,6 +198,7 @@ export const Landing = () => {
                             <li>Une description de votre marque et de votre activité</li>
                             <li>Vous aurez un choix à faire entre plusieurs dispositions des éléments dans votre page d'accueil afin de pousser la personnalisation encore plus loin</li>
                         </ul>
+                        <button onClick={() => { setViewTemplate(1) }} style={{ marginTop: '35px' }} className="button">Voir les différents modèles</button>
                     </div>}
 
                 {gestion &&

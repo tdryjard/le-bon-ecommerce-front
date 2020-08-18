@@ -3,7 +3,7 @@ import url from '../../api/url'
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { PropsBuy } from '../../types'
 
-export const CheckoutForm = ({ priceId, title, slogan, describe, template, publicKey, privateKey, color1, color2, logo, illustration }: PropsBuy) => {
+export const CheckoutForm = ({ domain, priceId, title, slogan, describe, template, publicKey, privateKey, color1, color2, logo, illustration }: PropsBuy) => {
 
 
     const [email, setEmail] = React.useState<string>('')
@@ -72,6 +72,7 @@ export const CheckoutForm = ({ priceId, title, slogan, describe, template, publi
                     base: logo
                 })
             })
+            if (!resLogo) setErrorData(true)
             const resLogoJson = await resLogo.json()
             const logoId = resLogoJson.id
             if (logoId) {
@@ -83,6 +84,7 @@ export const CheckoutForm = ({ priceId, title, slogan, describe, template, publi
                         base: illustration
                     })
                 })
+                if (!resIllustration) setErrorData(true)
                 const resIllustrationJson = await resIllustration.json()
                 const illustrationId = resIllustrationJson.id
                 if (illustrationId) {
@@ -101,6 +103,7 @@ export const CheckoutForm = ({ priceId, title, slogan, describe, template, publi
                             country: country
                         })
                     })
+                    if (!resCustomer) setErrorData(true)
                     if (resCustomer) {
                         const response = await fetch(`${url}/secret`)
                         if (response) {
@@ -129,10 +132,15 @@ export const CheckoutForm = ({ priceId, title, slogan, describe, template, publi
         });
 
         if (result.error) {
-            // Show error to your customer (e.g., insufficient funds)
+            setError('Un problème avec votre paiement est survenu, veuillez réessayer')
+            setLoad(false)
         } else {
+            if (!(result && result.paymentIntent && result.paymentIntent.status === 'succeeded')) {
+                setError('Un problème avec votre paiement est survenu, veuillez réessayer')
+                setLoad(false)
+            }
             // The payment has been processed!
-            if (result && result.paymentIntent && result.paymentIntent.status === 'succeeded') {
+            else if (result && result.paymentIntent && result.paymentIntent.status === 'succeeded') {
                 const resPurchase = await fetch(`${url}/purchase/create`, {
                     method: 'POST',
                     credentials: 'include',
@@ -149,7 +157,8 @@ export const CheckoutForm = ({ priceId, title, slogan, describe, template, publi
                         public_stripe: publicKey,
                         private_stripe: privateKey,
                         color1: color1,
-                        color2: color2
+                        color2: color2,
+                        domain: domain
                     })
                 })
                 if (resPurchase) setValidPurchase(true)
@@ -195,7 +204,8 @@ export const CheckoutForm = ({ priceId, title, slogan, describe, template, publi
                         <div className="inputPricingCard">
                             <CardElement options={CARD_OPTIONS} />
                         </div>
-                        <button style={{ marginTop: '35px', maxWidth: '80%', marginBottom: '30px' }} onClick={() => { subscription() }} className="button">Commander mon e-commerce pour 300€</button>
+                        {!load &&
+                            <button style={{ marginTop: '35px', maxWidth: '80%', marginBottom: '30px' }} onClick={() => { subscription() }} className="button">Commander mon e-commerce pour 300€</button>}
                     </div>
                 </div>
                 : errorData ?
@@ -203,14 +213,14 @@ export const CheckoutForm = ({ priceId, title, slogan, describe, template, publi
                         <h1 className="titlePurchase">Oups, une erreur est survenue</h1>
                         <h3 style={{ marginLeft: '40px', marginTop: '0' }} className="textPurchase">Désolé pour la gêne occasionnée<br /><br /></h3>
                         {window.innerWidth > 1250 ?
-                            <button onClick={() => {window.location.reload()}} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Re commander</button>
+                            <button onClick={() => { window.location.reload() }} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Re commander</button>
                             :
-                            <button onClick={() => {window.location.reload()}} style={{ marginTop: '50px', marginBottom: '50px' }} className="button">Re commander</button>}
+                            <button onClick={() => { window.location.reload() }} style={{ marginTop: '50px', marginBottom: '50px' }} className="button">Re commander</button>}
                     </div>
                     : validPurchase &&
-                    <div className="contentPurchase">
+                    <div style={{alignItems: 'center', justifyContent: 'center'}} className="contentPurchase">
                         <h1 className="titlePurchase">Félicitation ! Vous avez commandé votre e-commerce !</h1>
-                        <h3 style={{ marginLeft: '40px', marginTop: '0' }} className="textPurchase">Vous recevrez très prochainement les détails de votre commande par email et nous préviendrons dès que le développement de votre site sera fini</h3>
+                        <h3 style={{ marginLeft: '40px', marginTop: '0' }} className="textPurchase">Vous recevrez très prochainement les détails de votre commande par email et nous vous préviendrons dès que le développement de votre site sera fini</h3>
                     </div>}
         </>
     )

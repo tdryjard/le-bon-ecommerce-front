@@ -1,5 +1,5 @@
 :root{
-    --first-color: #e0e0e0;
+    --first-color: rgb(247, 228, 192);
     --second-color: #222222;
 }
 
@@ -133,11 +133,16 @@ button:focus {outline:0;}
     transform: rotate(90deg);
 }
 
-.illustrationLanding{
-    width: 100%;
-    height: auto;
-    margin-top: 50px;
-    margin-bottom: 80px;
+.arrowNext{
+    position: absolute;
+    right: 50px;
+    cursor: pointer;
+}
+
+.arrowPreview{
+    position: absolute;
+    left: 50px;
+    cursor: pointer;
 }
 
 
@@ -229,8 +234,7 @@ button:focus {outline:0;}
 }
 
 .errorPay{
-    position: absolute;
-    top: -70px;
+    margin-bottom: 30px;
     font-size: 20px;
     color: rgb(255, 49, 49);
     background-color: white;
@@ -386,5 +390,11 @@ button:focus {outline:0;}
         width: 80%;
         margin-top: 20px;
         margin-bottom: 20px;
+    }
+    .arrowNext{
+        bottom: 50px;
+    }
+    .arrowPreview{
+        bottom: 50px;
     }
 }

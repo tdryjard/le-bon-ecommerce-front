@@ -7,6 +7,12 @@ export type PropsShop = {
     base3: string
     pricePromo: string
     priceId: string
+    tokenProps : string
+    verifToken : boolean
+    id : string
+    imageId1 : string
+    imageId2 : string
+    imageId3 : string
 }
 
 export type PropsBuy = {
@@ -21,4 +27,5 @@ export type PropsBuy = {
     color1: string
     color2: string
     template: number
+    domain: string
 }

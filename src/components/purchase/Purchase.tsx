@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import { SketchPicker } from 'react-color'
 import { Buy } from '../buy/Buy'
+import { ChromePicker } from 'react-color'
 import './Purchase.scss'
 
 export const Purchase = () => {
     const [step, setStep] = useState(1)
-    const [domaine, setDomaine] = useState('')
+    const [domaine, setDomaine] = useState<any>()
     const [alert, setAlert] = useState('')
     const [publicKey, setPublicKey] = useState('')
     const [privateKey, setPrivateKey] = useState('')
@@ -17,6 +19,9 @@ export const Purchase = () => {
     const [illustration, setIllustration] = useState('')
     const [color1, setColor1] = useState('')
     const [color2, setColor2] = useState('')
+    const [resDomain, setResDomain] = useState<string[]>()
+    const [domainSelect, setDomainSelect] = useState('')
+    const [load, setLoad] = useState(false)
 
     const getFile = (e: React.ChangeEvent<HTMLInputElement>, typeImg: string) => {
         if (e.target.files) {
@@ -39,17 +44,10 @@ export const Purchase = () => {
     }
 
     const verifStep1 = () => {
-        if (!domaine) setAlert('Veuillez entrer un nom de domaine disponible')
+        if (!domainSelect) setAlert('Veuillez rechercher et selectionner un nom de domaine')
         else {
-            let domaineSplit = domaine.split('')
-            if (domaineSplit && domaineSplit.length) {
-                let end = (domaineSplit[domaineSplit.length - 3] + domaineSplit[domaineSplit.length - 2] + domaineSplit[domaineSplit.length - 1])
-                if (!(end === '.fr' || end === 'com')) setAlert('le nom de domaine doit se finir en .fr ou .com')
-                else {
-                    setAlert('')
-                    setStep(3)
-                }
-            } else setAlert('le nom de domaine doit se finir en .fr ou .com')
+            setAlert('')
+            setStep(3)
         }
     }
 
@@ -73,8 +71,6 @@ export const Purchase = () => {
     const verifStep4 = () => {
         if (!title) setAlert('Veuillez entrer le nom de votre marque ou site')
         else if (!slogan) setAlert('Veuillez entrer votre slogan (définir votre marque en 1 phrase)')
-        else if (!(color1 && color2)) setAlert('Veuillez entrer les deux couleurs principales de votre site')
-        else if ((color1.split('')[0] !== '#' || color2.split('')[0] !== '#')) setAlert('Veuillez entrer des couleurs en format "HEX" (hexadécimal) commençants par #')
         else {
             setAlert('')
             setStep(6)
@@ -105,6 +101,73 @@ export const Purchase = () => {
         }
     }
 
+    const verifStep8 = () => {
+        if (!(color1 && color2)) setAlert('Veuillez entrer les deux couleurs principales de votre site')
+        else if ((color1.split('')[0] !== '#' || color2.split('')[0] !== '#')) setAlert('Veuillez entrer des couleurs en format "HEX" (hexadécimal) commençants par #')
+        else {
+            setAlert('')
+            setStep(10)
+        }
+    }
+
+    const getDomain = async () => {
+        let result = false
+        let resDomains: string[] = []
+        let domainSplit = domaine.split('').reverse()
+        console.log(domainSplit)
+        if (((domainSplit[2] + domainSplit[1] + domainSplit[0]) === '.fr') || ((domainSplit[3] + domainSplit[2] + domainSplit[1] + domainSplit[0]) === '.com') || ((domainSplit[2] + domainSplit[1] + domainSplit[0]) === '.co')) {
+            const res = await fetch(`https://domainr.p.rapidapi.com/v2/status?mashape-key=bd15222dc1msh6f060b718d699e1p182e0cjsn56661f9d15be&domain=${domaine}`)
+            const resJson = await res.json()
+            setDomaine('')
+            setLoad(false)
+            console.log(resJson)
+            if (resJson.status[0].summary === "inactive") {
+                resDomains.push(domaine)
+                setResDomain(resDomains)
+                result = true
+                setAlert('')
+            }
+
+        } else if (domainSplit.includes('.')) {
+            setAlert(`N'ajoutez pas d'extension à votre domaine (les extension disponibles sont .fr, .com, .co)`)
+            setDomaine('')
+            setLoad(false)
+            result = true
+        }
+        else {
+            const res = await fetch(`https://domainr.p.rapidapi.com/v2/status?mashape-key=bd15222dc1msh6f060b718d699e1p182e0cjsn56661f9d15be&domain=${domaine}.fr`)
+            const resJson = await res.json()
+            if (resJson && resJson.status[0] && resJson.status[0].summary === "inactive") {
+                resDomains.push(`${domaine}.fr`)
+                result = true
+            }
+
+
+            const res2 = await fetch(`https://domainr.p.rapidapi.com/v2/status?mashape-key=bd15222dc1msh6f060b718d699e1p182e0cjsn56661f9d15be&domain=${domaine}.com`)
+            const resJson2 = await res2.json()
+            if (resJson2 && resJson2.status[0] && resJson2.status[0].summary === "inactive") {
+                resDomains.push(`${domaine}.com`)
+                result = true
+            }
+
+
+            const res3 = await fetch(`https://domainr.p.rapidapi.com/v2/status?mashape-key=bd15222dc1msh6f060b718d699e1p182e0cjsn56661f9d15be&domain=${domaine}.co`)
+            const resJson3 = await res3.json()
+            if (resJson3 && resJson3.status[0] && resJson3.status[0].summary === "inactive") {
+                resDomains.push(`${domaine}.co`)
+                result = true
+            }
+            if (result) {
+                setAlert('')
+                setResDomain(resDomains)
+            }
+            setLoad(false)
+            setDomaine('')
+            console.log(resJson)
+        }
+        if (!result) setAlert('Domaine indisponible, essayez en un autre')
+    }
+
     return (
         <div className="containerPurchase">
             <head>
@@ -133,16 +196,34 @@ export const Purchase = () => {
                     <div className="containerStepImg">
                         <img className="stepPurchase" alt="step2" src={require('./images/step1.png')} />
                     </div>
-                    <h1 className="titlePurchase">Nom de domaine libre en .fr ou .com pour votre site</h1>
+                    <h1 className="titlePurchase">Rechercher et selectionner un nom de domaine pour son site</h1>
                     <input maxLength={200} onChange={(e) => { setDomaine(e.target.value) }} placeholder="nom de domaine" className="input" />
                     {alert && <p className="text" style={{ marginTop: '10px', marginBottom: '10px', textAlign: 'center' }}>{alert}</p>}
-                    <a style={{ fontWeight: 'bold', color: 'red', marginTop: '30px' }} href="https://www.ovh.com/fr/domaines/" target="_blank" rel="noopener" className="linkLanding">Vérifier la disponibilité du nom de domaine<br /><br /></a>
+                    {load && <img src={require('./images/load.gif')} style={{ height: '80px', width: '80px', marginTop: '20px', marginBottom: '20px' }} />}
+                    {domaine && !load &&
+                        <button style={{ marginTop: '20px', marginBottom: '20px' }} onClick={() => { return (setLoad(true), getDomain()) }} className="button">Rechercher disponibilité</button>}
+                    {resDomain && resDomain!.length &&
+                        <p style={{ marginTop: '20px', marginBottom: '20px' }} className="title">Domaines disponibles :</p>}
+                    {window.innerWidth > 1250 && resDomain && resDomain!.length > 0 &&
+                        <div className="row">
+                            {resDomain && resDomain!.length > 0 && resDomain!.map(domain => {
+                                return (
+                                    <button style={{ marginRight: '15px', marginLeft: '15px' }} className={domain === domainSelect ? "buttonActive" : "button"} onClick={() => { setDomainSelect(domain) }}>{domain}</button>
+                                )
+                            })}
+                        </div>}
+                    {window.innerWidth < 1250 && resDomain && resDomain!.length > 0 && resDomain!.map(domain => {
+                        return (
+                            <button style={{ marginTop: '10px', marginBottom: '10px' }} className={domain === domainSelect ? "buttonActive" : "button"} onClick={() => { setDomainSelect(domain) }}>{domain}</button>
+                        )
+                    })}
                     {window.innerWidth > 1250 ?
                         <button onClick={verifStep1} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Suivant</button>
                         :
                         <button onClick={verifStep1} style={{ marginTop: '50px', marginBottom: '50px' }} className="button">Suivant</button>}
                 </div>}
-            {step === 3 &&
+            {
+                step === 3 &&
                 <div className="contentPurchase">
                     <div className="containerStepImg">
                         <img className="stepPurchase" alt="step2" src={require('./images/step2.png')} />
@@ -163,23 +244,52 @@ export const Purchase = () => {
                         <button onClick={verifStep2} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Suivant</button>
                         :
                         <button onClick={verifStep2} style={{ marginTop: '50px', marginBottom: '50px' }} className="button">Suivant</button>}
-                </div>}
-            {step === 4 &&
+                </div>
+            }
+            {
+                step === 4 &&
                 <div className="contentPurchase">
                     {viewTemplate === 1 &&
                         <div onClick={() => { setViewTemplate(0) }} className="containerViewTemplate">
                             <button className="buttonClosePurchase">Fermer</button>
                             <img className="templatePurchaseView" src={require('./images/template1.png')} alt="template 1" />
+                            <img onClick={(e) => { return (setViewTemplate(2), e.stopPropagation()) }} className="arrowNext" src={require('../images/next.png')} alt="suivant" />
+                            <p style={{ color: 'white' }} className="title">Template 1</p>
                         </div>}
                     {viewTemplate === 2 &&
                         <div onClick={() => { setViewTemplate(0) }} className="containerViewTemplate">
+                            <img onClick={(e) => { return (setViewTemplate(1), e.stopPropagation()) }} className="arrowPreview" src={require('../images/preview.png')} alt="précédent" />
                             <button className="buttonClosePurchase">Fermer</button>
-                            <img className="templatePurchaseView" src={require('./images/template2.png')} alt="template 1" />
+                            <img style={{ height: '70%', width: 'auto' }} className="templatePurchaseView" src={require('./images/template-mobile1.png')} alt="template 1" />
+                            <p style={{ color: 'white' }} className="title">Template 1</p>
                         </div>}
                     {viewTemplate === 3 &&
                         <div onClick={() => { setViewTemplate(0) }} className="containerViewTemplate">
                             <button className="buttonClosePurchase">Fermer</button>
+                            <img className="templatePurchaseView" src={require('./images/template2.png')} alt="template 1" />
+                            <img onClick={(e) => { return (setViewTemplate(4), e.stopPropagation()) }} className="arrowNext" src={require('../images/next.png')} alt="suivant" />
+                            <p style={{ color: 'white' }} className="title">Template 2</p>
+                        </div>}
+                    {viewTemplate === 4 &&
+                        <div onClick={() => { setViewTemplate(0) }} className="containerViewTemplate">
+                            <img onClick={(e) => { return (setViewTemplate(3), e.stopPropagation()) }} className="arrowPreview" src={require('../images/preview.png')} alt="précédent" />
+                            <button className="buttonClosePurchase">Fermer</button>
+                            <img style={{ height: '70%', width: 'auto' }} className="templatePurchaseView" src={require('./images/template-mobile2.png')} alt="template 1" />
+                            <p style={{ color: 'white' }} className="title">Template 2</p>
+                        </div>}
+                    {viewTemplate === 5 &&
+                        <div onClick={() => { setViewTemplate(0) }} className="containerViewTemplate">
+                            <button className="buttonClosePurchase">Fermer</button>
                             <img className="templatePurchaseView" src={require('./images/template3.png')} alt="template 1" />
+                            <img onClick={(e) => { return (setViewTemplate(6), e.stopPropagation()) }} className="arrowNext" src={require('../images/next.png')} alt="suivant" />
+                            <p style={{ color: 'white' }} className="title">Template 3</p>
+                        </div>}
+                    {viewTemplate === 6 &&
+                        <div onClick={() => { setViewTemplate(0) }} className="containerViewTemplate">
+                            <img onClick={(e) => { return (setViewTemplate(5), e.stopPropagation()) }} className="arrowPreview" src={require('../images/preview.png')} alt="précédent" />
+                            <button className="buttonClosePurchase">Fermer</button>
+                            <img style={{ height: '70%', width: 'auto' }} className="templatePurchaseView" src={require('./images/template-mobile3.png')} alt="template 1" />
+                            <p className="title">Template 3</p>
                         </div>}
                     <div className="containerStepImg">
                         <img className="stepPurchase" alt="step2" src={require('./images/step3.png')} />
@@ -192,13 +302,13 @@ export const Purchase = () => {
                             </div>
                             <img className="templatePurchase" src={require('./images/template1.png')} alt="template 1" />
                         </div>
-                        <div onClick={() => { setViewTemplate(2) }} className="containerTemplate">
+                        <div onClick={() => { setViewTemplate(3) }} className="containerTemplate">
                             <div onClick={(e) => { return (setTemplate(2), e.stopPropagation()) }} className="containerCheckBox">
                                 {template === 2 && <img className="iconValid" src={require('./images/valid.png')} alt="valid icon" />}
                             </div>
                             <img className="templatePurchase" src={require('./images/template2.png')} alt="template 1" />
                         </div>
-                        <div onClick={() => { setViewTemplate(3) }} className="containerTemplate">
+                        <div onClick={() => { setViewTemplate(5) }} className="containerTemplate">
                             <div onClick={(e) => { return (setTemplate(3), e.stopPropagation()) }} className="containerCheckBox">
                                 {template === 3 && <img className="iconValid" src={require('./images/valid.png')} alt="valid icon" />}
                             </div>
@@ -210,31 +320,28 @@ export const Purchase = () => {
                         <button onClick={verifStep3} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Suivant</button>
                         :
                         <button onClick={verifStep3} style={{ marginTop: '50px', marginBottom: '50px' }} className="button">Suivant</button>}
-                </div>}
-            {step === 5 &&
+                </div>
+            }
+            {
+                step === 5 &&
                 <div className="contentPurchase">
                     <h1 className="titlePurchase">Entrez les informations de votre future page d'accueil</h1>
                     <div className="containerStepImg">
                         <img className="stepPurchase" alt="step2" src={require('./images/step5.png')} />
                     </div>
-                    <div className="row">
-                        <div className="column">
-                            <input maxLength={250} style={{ marginTop: '50px', marginBottom: '50px' }} onChange={(e) => { setTitle(e.target.value) }} placeholder="nom de votre marque" className="input" />
-                            <input maxLength={250} style={{ marginBottom: '50px' }} onChange={(e) => { setSlogan(e.target.value) }} placeholder="votre slogan" className="input" />
-                        </div>
-                        <div style={{ marginLeft: '50px', alignItems: 'flex-start' }} className="column">
-                            <a style={{ marginBottom: '10px', textAlign: 'start' }} href="https://mdigi.tools/color-shades" target="_blank" rel="noopener" className="linkLanding">Générer les couleurs de son site en hexadecimal<br /><br /></a>
-                            <input maxLength={250} style={{ marginBottom: '20px' }} onChange={(e) => { setColor1(e.target.value) }} placeholder="#FFFFFF couleur principale" className="input" />
-                            <input maxLength={250} onChange={(e) => { setColor2(e.target.value) }} placeholder="#FFFFFF couleur secondaire" className="input" />
-                        </div>
+                    <div className="column">
+                        <input maxLength={250} style={{ marginTop: '50px', marginBottom: '50px' }} onChange={(e) => { setTitle(e.target.value) }} placeholder="nom de votre marque" className="input" />
+                        <input maxLength={250} style={{ marginBottom: '50px' }} onChange={(e) => { setSlogan(e.target.value) }} placeholder="votre slogan" className="input" />
                     </div>
                     {alert && <p className="text" style={{ marginTop: '10px', marginBottom: '10px', textAlign: 'center' }}>{alert}</p>}
                     {window.innerWidth > 1250 ?
                         <button onClick={verifStep4} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Suivant</button>
                         :
                         <button onClick={verifStep4} style={{ marginTop: '50px', marginBottom: '50px' }} className="button">Suivant</button>}
-                </div>}
-            {step === 6 &&
+                </div>
+            }
+            {
+                step === 6 &&
                 <div className="contentPurchase">
                     <div className="containerStepImg">
                         <img className="stepPurchase" alt="step2" src={require('./images/step5.png')} />
@@ -246,8 +353,10 @@ export const Purchase = () => {
                         <button onClick={verifStep5} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Suivant</button>
                         :
                         <button onClick={verifStep5} style={{ marginTop: '50px', marginBottom: '50px' }} className="button">Suivant</button>}
-                </div>}
-            {step === 7 &&
+                </div>
+            }
+            {
+                step === 7 &&
                 <div className="contentPurchase">
                     <div className="containerStepImg">
                         <img className="stepPurchase" alt="step2" src={require('./images/step5.png')} />
@@ -267,8 +376,10 @@ export const Purchase = () => {
                         <button onClick={verifStep6} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Suivant</button>
                         :
                         <button onClick={verifStep6} style={{ marginTop: '150px', marginBottom: '50px' }} className="button">Suivant</button>}
-                </div>}
-            {step === 8 &&
+                </div>
+            }
+            {
+                step === 8 &&
                 <div className="contentPurchase">
                     <div className="containerStepImg">
                         <img className="stepPurchase" alt="step2" src={require('./images/step5.png')} />
@@ -288,8 +399,22 @@ export const Purchase = () => {
                         <button onClick={verifStep7} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Suivant</button>
                         :
                         <button onClick={verifStep7} style={{ marginTop: '200px', marginBottom: '50px' }} className="button">Suivant</button>}
-                </div>}
-            {step === 9 && <Buy priceId={'price_1HGvKQKleZ50Ivn6n79hKB9p'} title={title} slogan={slogan} describe={describe} template={template} publicKey={publicKey} privateKey={privateKey} color1={color1} color2={color2} logo={logo} illustration={illustration} />}
-        </div>
+                </div>
+            }
+            {
+                step === 9 &&
+                <div className="contentPurchase">
+                    <h1 style={{ marginBottom: '30px' }} className="titlePurchase">Entrez les deux couleurs principales de votre site</h1>
+                    <ChromePicker />
+                    <input maxLength={250} style={{ marginBottom: '20px', marginTop: '50px' }} onChange={(e) => { setColor1(e.target.value) }} placeholder="#FFFFFF couleur principale" className="input" />
+                    <input maxLength={250} onChange={(e) => { setColor2(e.target.value) }} placeholder="#FFFFFF couleur secondaire" className="input" />
+                    {window.innerWidth > 1250 ?
+                        <button onClick={verifStep8} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Suivant</button>
+                        :
+                        <button onClick={verifStep8} style={{ marginTop: '150px', marginBottom: '50px' }} className="button">Suivant</button>}
+                </div>
+            }
+            { step === 10 && <Buy domain={domainSelect} priceId={'price_1HGvKQKleZ50Ivn6n79hKB9p'} title={title} slogan={slogan} describe={describe} template={template} publicKey={publicKey} privateKey={privateKey} color1={color1} color2={color2} logo={logo} illustration={illustration} />}
+        </div >
     )
 }

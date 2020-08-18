@@ -1,0 +1,223 @@
+.containerProducts{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+.cardProduct{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 25%;
+    min-width: 300px;
+    border-radius: 2px;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 50px;
+    border: 1px solid rgb(216,219,216);
+    position: relative;
+    cursor: pointer;
+    &:hover{
+        animation: hoverShadow 0.5s;
+        box-shadow: 0px 2px 5px rgb(216, 216, 216);
+    }
+}
+
+@keyframes hoverShadow{
+    from{
+        box-shadow: none;
+    }
+    to{
+        box-shadow: 0px 2px 5px rgb(216, 216, 216);
+    }
+}
+
+.leftCardProduct{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 400px;
+}
+
+.containerTitleProduct{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+}
+
+.containerImgProduct{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 400px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.imgProduct{
+    height: auto;
+    width: 100%;
+}
+
+.rightCardProduct{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 90%;
+    padding: 20px 5% 20px 5%;
+}
+
+.containerPriceProduct{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.containerPromoPrice{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 30px;
+    margin-right: 40px;
+}
+
+.tiretPromo{
+    position: absolute;
+    top: 15px;
+    height: 1px;
+    width: 50px;
+    background-color: rgb(37, 37, 37);
+}
+
+.containerPrice{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+// ZOOM
+
+.containerProductZoom{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    height: 100vh;
+    width: 100%;
+    background-color: rgb(241, 241, 241);
+}
+
+.contentProductZoom{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: row;
+    background-color: white;
+    width: 60%;
+    height: 60%;
+    padding: 5%;
+    box-shadow: 2px 2px 5px rgb(134, 134, 134);
+}
+
+.leftCardProductZoom{
+    display: flex;
+    justify-content: start;
+    align-items: flex-start;
+    width: 60%;
+    height: 100%;
+}
+
+.containerLittleImgProduct{
+    width: 30%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.imgProductZoom1{
+    width: 70%;
+    height: auto;
+    margin-right: 30px;
+    margin-left: 20px;
+}
+
+.imgProductZoom2{
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.imgProductZoom3{
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.rightCardProductZoom{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 40%;
+    height: 100%;
+}
+
+.logoCard{
+    position: absolute;
+    background-color: rgb(26, 26, 26);
+    border-radius: 10px;
+    top: 20px;
+    left: 20px;
+    padding: 7px;
+    height: 40px;
+    width: auto;
+    cursor: pointer;
+    &:hover{
+        background-color: rgb(48, 48, 48);
+    }
+}
+
+.containerPopup{
+    width: 350px;
+    height: 250px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 2px 2px 5px rgb(134, 134, 134);
+}
+
+.buttonImgUpdate{
+    background-image: url('../images/edit.png');
+    background-size: cover;
+    background-color: rgb(26, 26, 26);
+    border-radius: 5px;
+    padding: 15px;
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
+    border: none;
+}
