@@ -14,7 +14,7 @@ export function App() {
   }, [])
 
   function initializeReactGA() {
-    ReactGA.initialize('UA-169275626-1');
+    ReactGA.initialize('UA-169275626-2');
     ReactGA.pageview('/');
     ReactGA.pageview('/commander');
   }
