@@ -7,7 +7,7 @@ import { PropsBuy } from '../../types'
 
 export const Buy = ({ domain, priceId, title, slogan, describe, template, publicKey, privateKey, color1, color2, logo, illustration }: PropsBuy) => {
 
-    const stripePromise = loadStripe("pk_test_AGb35S7bWUgRgRUh3tsxgfrL00MDuBTKPS");
+    const stripePromise = loadStripe("pk_live_u4e03SLJFJMC8k4Bv7g1T3Py00rrpMeJLo");
 
     return (
         <Elements stripe={stripePromise}>
