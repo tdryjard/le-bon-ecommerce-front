@@ -43,6 +43,15 @@ export const Purchase = () => {
         }
     }
 
+    useEffect(() => {
+        window.scrollTo(0, -document.body.scrollHeight);
+    }, [])
+
+
+    useEffect(() => {
+        window.scrollTo(0, -document.body.scrollHeight);
+    }, [step])
+
     const verifStep1 = () => {
         if (!domainSelect) setAlert('Veuillez rechercher et selectionner un nom de domaine')
         else {
@@ -52,8 +61,14 @@ export const Purchase = () => {
     }
 
     const verifStep2 = () => {
+        const splitedPublic = publicKey.split('')
+        const splitedPrivate = privateKey.split('')
+        const verifPublic = (splitedPublic[0] + splitedPublic[1] + splitedPublic[2] + splitedPublic[3] + splitedPublic[4] + splitedPublic[5] + splitedPublic[6])
+        const verifPrivate = (splitedPrivate[0] + splitedPrivate[1] + splitedPrivate[2] + splitedPrivate[3] + splitedPrivate[4] + splitedPrivate[5] + splitedPrivate[6])
         if (!publicKey) setAlert('Veuillez entrer votre clé publique Stripe')
         else if (!privateKey) setAlert('Veuillez entrer votre clé privée Stripe')
+        else if (verifPublic !== "pk_live") setAlert('Clé public invalide')
+        else if (verifPrivate !== "sk_live") setAlert('Clé privée invalide')
         else {
             setAlert('')
             setStep(4)
@@ -114,13 +129,11 @@ export const Purchase = () => {
         let result = false
         let resDomains: string[] = []
         let domainSplit = domaine.split('').reverse()
-        console.log(domainSplit)
         if (((domainSplit[2] + domainSplit[1] + domainSplit[0]) === '.fr') || ((domainSplit[3] + domainSplit[2] + domainSplit[1] + domainSplit[0]) === '.com') || ((domainSplit[2] + domainSplit[1] + domainSplit[0]) === '.co')) {
             const res = await fetch(`https://domainr.p.rapidapi.com/v2/status?mashape-key=bd15222dc1msh6f060b718d699e1p182e0cjsn56661f9d15be&domain=${domaine}`)
             const resJson = await res.json()
             setDomaine('')
             setLoad(false)
-            console.log(resJson)
             if (resJson.status[0].summary === "inactive") {
                 resDomains.push(domaine)
                 setResDomain(resDomains)
@@ -163,7 +176,6 @@ export const Purchase = () => {
             }
             setLoad(false)
             setDomaine('')
-            console.log(resJson)
         }
         if (!result) setAlert('Domaine indisponible, essayez en un autre')
     }

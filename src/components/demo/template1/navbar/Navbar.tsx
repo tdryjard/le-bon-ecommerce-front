@@ -8,7 +8,6 @@ export const Navbar = () => {
 
     useEffect(() => {
         let loc: any = window.location.pathname
-        console.log(loc)
         setOrigin(loc)
     }, [])
 

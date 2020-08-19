@@ -8,8 +8,7 @@ export const ShopDemo = () => {
     useEffect(() => {
         
     }, [])
-
-    console.log(products)
+    
     return(
         <div className="container">
             <Navbar/>
