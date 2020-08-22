@@ -363,7 +363,7 @@ const ChatBotArea = (props) => {
                     <img onClick={() => { setChatActive(!chatActive) }} alt="close sortouch" src={cross} className="crossChatbot" />
                     <img onClick={reloadFunction} alt="reload sortouch" src={reload} className="reloadChatbot" />
                     <img src={back} className="backIconSortouch" onClick={backResponse} />
-                    <a target="__blank" href="https://sortouch.com" className="sortouch">Sortouch</a>
+                    <a target="__blank" href="https://sortouch.co" className="sortouch">Sortouch</a>
                 </div>}
             {!load && !(search.length > 0) ?
                 <div className={chatActive ? "contentChatbot" : "contentIcon"}>
