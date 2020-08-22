@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import { Questionchat } from '../questionBlock/QuestionChat';
+import Questionchat from '../questionBlock/QuestionChat';
 import cross from './cross.png'
 import logo from './logo.png'
 import reload from './reload.png'
 import back from './back.png'
 import { useForm } from "react-hook-form";
-import { PropsArea } from '../types'
 import './FormContact.css'
 import './ChatBotArea.css'
 
-export const Sortouch = ({ userId, modelId, active }: PropsArea) => {
-    const [containers, setContainers] = useState<any[]>()
-    const [cardsQuest, setCardsQuest] = useState<any[]>()
-    const [cardsRes, setCardsRes] = useState<any[]>()
-    const [cardsCategory, setCardsCategory] = useState<any[]>()
+const ChatBotArea = (props) => {
+    const [containers, setContainers] = useState([])
+    const [cardsQuest, setCardsQuest] = useState([])
+    const [cardsRes, setCardsRes] = useState([])
+    const [cardsCategory, setCardsCategory] = useState([])
     const [responseSelect, setResponseSelect] = useState(0)
-    const [storageContainers, setStorageContainers] = useState<any[]>()
-    const [responseSelected, setResponseSelected] = useState<any[]>()
+    const [storageContainers, setStorageContainers] = useState()
+    const [responseSelected, setResponseSelected] = useState([])
     const [pair, setPair] = useState(false)
     const [cardsQuestFilter, setCardsQuestFilter] = useState([])
     const [chatActive, setChatActive] = useState(false)
@@ -27,57 +26,54 @@ export const Sortouch = ({ userId, modelId, active }: PropsArea) => {
     const [message, setMessage] = useState("")
     const [load, setLoad] = useState(false)
     const [color, setColor] = useState()
-    const [lastResponse, setLastResponse] = useState<any>()
-    const [beforeSelect, setBeforeSelect] = useState<any[]>()
-    const [search, setSearch] = useState<string[]>()
+    const [lastResponse, setLastResponse] = useState()
+    const [beforeSelect, setBeforeSelect] = useState([])
+    const [search, setSearch] = useState([])
 
-    const headRequest: any = {
-        'Content-Type': 'application/json',
-        'Acces-Control-Allow-Origin': { origin }
-    }
+    const { send, handleSubmit } = useForm()
 
-    function validateEmail(email: string) {
-        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    function validateEmail(email) {
+        let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
     }
 
-    const validatePhone = (phone: string) => {
-        const re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
+    const validatePhone = (phone) => {
+        let re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
         return re.test(phone)
     }
 
-    const takePhone = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const takePhone = (event) => {
         setPhone(event.target.value)
     }
 
-    const takeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const takeEmail = (event) => {
         setEmail(event.target.value)
     }
 
-    function getCurrentDate(separator: any) {
+    function getCurrentDate(separator) {
 
-        const newDate: any = new Date()
-        const date = newDate.getDate();
-        const month = newDate.getMonth() + 1;
-        const year = newDate.getFullYear();
+        let newDate = new Date()
+        let date = newDate.getDate();
+        let month = newDate.getMonth() + 1;
+        let year = newDate.getFullYear();
 
         return `${year}${separator}${month < 10 ? `0${month}` : `${month}`}${separator}${date}`
     }
 
     useEffect(() => {
-        if (active) setChatActive(true)
-    }, [active])
+        if (props.active) setChatActive(true)
+    }, [props.active])
 
-    const searching = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const word = e.target.value
-        const wordSplit = word.toLowerCase().split('')
-        const resReturn: any[] = []
+    const searching = (e) => {
+        let word = e.target.value
+        let wordSplit = word.toLowerCase().split('')
+        let resReturn = []
         if (wordSplit.length > 2) {
-            fetch(`https://sortouch-back.herokuapp.com/api/chatbot/response/findAll/${userId}/${modelId}`)
+            fetch(`https://sortouch-back.herokuapp.com/api/chatbot/response/findAll/${props.userId}/${props.modelId}`)
                 .then(res => res.json())
                 .then(res => {
                     for (let i = 0; i < res.length; i++) {
-                        const resSplit = res[i].content.split('')
+                        let resSplit = res[i].content.split('')
                         let nbEgale = 0
                         let nbLetter = 0
                         for (let iWord = 0; iWord < wordSplit.length; iWord++) {
@@ -92,11 +88,11 @@ export const Sortouch = ({ userId, modelId, active }: PropsArea) => {
                                 }
                             }
                         }
-                        if (nbEgale > 0 && resReturn[resReturn.length - 1] && (resReturn[resReturn.length - 1].id !== res[i].id)) resReturn.push(res[i])
+                        if (nbEgale > 0 && (resReturn[resReturn.length - 1].id !== res[i].id)) resReturn.push(res[i])
                         nbEgale = 0
                     }
-                    const sortResult = resReturn.filter((item: any, pos: any) => {
-                        return resReturn.indexOf(item) === pos;
+                    let sortResult = resReturn.filter(function (item, pos) {
+                        return resReturn.indexOf(item) == pos;
                     })
                     if (resReturn.length > 0) setSearch(sortResult)
                 })
@@ -104,8 +100,8 @@ export const Sortouch = ({ userId, modelId, active }: PropsArea) => {
         if (wordSplit.length === 0) setSearch([])
     }
 
-    const sendMail = async (categoryId: any) => {
-        const date = getCurrentDate(' ')
+    const sendMail = async (categoryId) => {
+        let date = getCurrentDate(' ')
         const dateChar = date.toString()
         if (!validateEmail(email)) {
             alert('email non valide')
@@ -114,27 +110,33 @@ export const Sortouch = ({ userId, modelId, active }: PropsArea) => {
         } else {
             const result = await fetch(`https://sortouch-back.herokuapp.com/api/chatbot/mail/create`, {
                 method: 'POST',
-                headers: headRequest,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Acces-Control-Allow-Origin': { origin }
+                },
                 body: JSON.stringify({
                     phone: phone,
                     email: email,
                     message: message,
                     category_id: categoryId,
-                    model_id: modelId,
-                    user_id: userId,
+                    model_id: props.modelId,
+                    user_id: props.userId,
                     view: 0,
                     date: dateChar
                 })
             });
             const result2 = await fetch(`https://sortouch-back.herokuapp.com/api/chatbot/contact/create`, {
                 method: 'POST',
-                headers: headRequest,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Acces-Control-Allow-Origin': { origin }
+                },
                 body: JSON.stringify({
                     phone: phone,
                     email: email,
                     category_id: categoryId,
-                    model_id: modelId,
-                    user_id: userId
+                    model_id: props.modelId,
+                    user_id: props.userId
                 })
             });
             if (result && result2) {
@@ -146,11 +148,15 @@ export const Sortouch = ({ userId, modelId, active }: PropsArea) => {
         }
     }
 
+    const getMessage = (e) => {
+        setMessage(e.target.value)
+    }
+
     useEffect(() => {
-        if (userId && modelId) {
+        if (props.userId && props.modelId) {
             printContainers()
         }
-    }, [userId, modelId, responseSelect, chatActive])
+    }, [props.userId, props.modelId, responseSelect, chatActive])
 
     useEffect(() => {
         setTimeout(() => {
@@ -162,16 +168,16 @@ export const Sortouch = ({ userId, modelId, active }: PropsArea) => {
     const printContainers = async () => {
         if (lastResponse !== responseSelect) {
             try {
-                fetch(`https://sortouch-back.herokuapp.com/api/chatbot/container/findAll/${userId}/${responseSelect}/${modelId}`)
+                fetch(`https://sortouch-back.herokuapp.com/api/chatbot/container/findAll/${props.userId}/${responseSelect}/${props.modelId}`)
                     .then(res => res.json())
                     .then(res => {
-                        if (beforeSelect && containers && beforeSelect[0] !== 0) {
-                            if (beforeSelect && beforeSelect[0] === 0) setBeforeSelect([])
-                            let resResult = res.filter((res: any) => res.response_id !== null)
+                        if ((containers.length > 0) && beforeSelect[0] !== 0) {
+                            if (beforeSelect[0] === 0) setBeforeSelect([])
+                            let resResult = res.filter(res => res.response_id !== null)
                             setContainers(resResult)
                             takeCard(resResult)
                         } else {
-                            if (beforeSelect && beforeSelect[0] === 0) setBeforeSelect([])
+                            if (beforeSelect[0] === 0) setBeforeSelect([])
                             setContainers(res)
                             takeCard(res)
                         }
@@ -184,42 +190,42 @@ export const Sortouch = ({ userId, modelId, active }: PropsArea) => {
         }
     }
 
-    const takeCard = async (res: any) => {
-        let stock: any[] = []
+    const takeCard = async (res) => {
+        let stock = []
         for (let i = 0; i < res.length + 3; i++) {
             if (res[i]) {
-                let result: any[] = []
+                let result = []
                 if (res[i].content_type === "question") {
-                    const resNoJson = await fetch(`https://sortouch-back.herokuapp.com/api/chatbot/relation/findCardQuestion/${res[i].id}/${userId}/${modelId}`)
+                    const resNoJson = await fetch(`https://sortouch-back.herokuapp.com/api/chatbot/relation/findCardQuestion/${res[i].id}/${props.userId}/${props.modelId}`)
                     result = await resNoJson.json()
                 }
-                else result = [`none`]
+                else result = { none: `pas de question container id ${i}` }
                 stock = [...stock, result]
                 setCardsQuest(stock)
             }
         }
-        let stockRes: any[] = []
+        let stockRes = []
         for (let i = 0; i < res.length + 3; i++) {
             if (res[i]) {
                 let result = []
                 if (res[i].content_type === "response") {
-                    const resNoJson = await fetch(`https://sortouch-back.herokuapp.com/api/chatbot/relation/findCardResponse/${res[i].id}/${userId}/${modelId}`)
+                    const resNoJson = await fetch(`https://sortouch-back.herokuapp.com/api/chatbot/relation/findCardResponse/${res[i].id}/${props.userId}/${props.modelId}`)
                     result = await resNoJson.json()
                 }
-                else result = [`none`]
+                else result = { none: `pas de réponse container id ${i}` }
                 stockRes = [...stockRes, result]
                 setCardsRes(stockRes)
             }
         }
-        let stockCategory: any[] = []
+        let stockCategory = []
         for (let i = 0; i < res.length + 3; i++) {
             if (res[i]) {
                 let result = []
                 if (res[i].content_type === "category") {
-                    const resNoJson = await fetch(`https://sortouch-back.herokuapp.com/api/chatbot/relation/findCardCategory/${res[i].id}/${userId}/${modelId}`)
+                    const resNoJson = await fetch(`https://sortouch-back.herokuapp.com/api/chatbot/relation/findCardCategory/${res[i].id}/${props.userId}/${props.modelId}`)
                     result = await resNoJson.json()
                 }
-                else result = [`none`]
+                else result = { none: `pas de categorie container id ${i}` }
                 stockCategory = [...stockCategory, result]
                 setCardsCategory(stockCategory)
             }
@@ -227,36 +233,34 @@ export const Sortouch = ({ userId, modelId, active }: PropsArea) => {
         setLoad(false)
     }
 
-    const selectResponse = async function (cardId: any, index: any, search: any) {
+    const selectResponse = async function (cardId, index, search) {
         if (search) setSearch([])
         setPair(!pair)
         const stockContainers = containers
         const numberCard = cardId
         const containerIndex = index + 1
-        let stockSelect = beforeSelect
-        if (stockSelect) stockSelect.push(numberCard)
+        const stockSelect = [...beforeSelect, numberCard]
         setBeforeSelect(stockSelect)
         setResponseSelect(numberCard)
 
 
 
-        if (responseSelected) responseSelected.length = cardId
-        if (stockContainers) stockContainers.length = containerIndex
+        responseSelected.length = cardId
+        stockContainers.length = containerIndex
 
 
-        let stockResponseSelected = ([responseSelected, numberCard])
-        if(cardsRes){
-            for (let a = 0; a < cardsRes.length; a++) {
-                if (cardsRes![a].length) {
-                    for (let b = 0; b < cardsRes![a].length; b++) {
-                        for (let c = 0; c < stockResponseSelected.length; c++) {
-                            const nbRes = cardsRes![a].filter((card: any) => stockResponseSelected.includes(card.id))
-                            if (nbRes.length > 1) {
-                                for (let i = 0; i < stockResponseSelected.length; i++) {
-                                    for (let a = 0; a < nbRes.length - 1; a++) {
-                                        if (nbRes[a].id === (stockResponseSelected[i])) {
-                                            stockResponseSelected.splice(i, 1)
-                                        }
+        let stockResponseSelected = ([...responseSelected, numberCard])
+
+        for (let a = 0; a < cardsRes.length; a++) {
+            if (cardsRes[a].length) {
+                for (let b = 0; b < cardsRes[a].length; b++) {
+                    for (let c = 0; c < stockResponseSelected.length; c++) {
+                        const nbRes = cardsRes[a].filter(card => stockResponseSelected.includes(card.id))
+                        if (nbRes.length > 1) {
+                            for (let i = 0; i < stockResponseSelected.length; i++) {
+                                for (let a = 0; a < nbRes.length - 1; a++) {
+                                    if (nbRes[a].id === (stockResponseSelected[i])) {
+                                        stockResponseSelected.splice(i, 1)
                                     }
                                 }
                             }
@@ -279,14 +283,14 @@ export const Sortouch = ({ userId, modelId, active }: PropsArea) => {
         setChatActive(true)
     }
 
-    const reloadFunction = (isPost: any) => {
-        if ((responseSelect && responseSelect !== 0) || search!.length > 0) {
+    const reloadFunction = (isPost) => {
+        if ((responseSelect && responseSelect !== 0) || search.length > 0) {
             setContainers([])
             setCardsQuest([])
             setCardsRes([])
             setCardsCategory([])
             setResponseSelect(0)
-            setStorageContainers([])
+            setStorageContainers()
             setResponseSelected([])
             setCardsQuestFilter([])
             setSearch([])
@@ -297,13 +301,17 @@ export const Sortouch = ({ userId, modelId, active }: PropsArea) => {
 
 
     const getColor = async () => {
-        const resFind = await fetch(`https://sortouch-back.herokuapp.com/api/model/findAll/${userId}`, {
+        const resFind = await fetch(`https://sortouch-back.herokuapp.com/api/model/findAll/${props.userId}`, {
             method: 'GET',
-            headers: headRequest
+            headers: {
+                'Content-Type': 'application/json',
+                'Acces-Control-Allow-Origin': { origin },
+                'authorization': props.token
+            }
         })
         const resFindJson = await resFind.json()
         if (resFindJson.length > 0) {
-            const resFindSort = await resFindJson.filter((res: any) => res.id === modelId)
+            const resFindSort = await resFindJson.filter(res => res.id === parseInt(props.modelId))
             if (resFindSort) {
                 setColor(resFindSort[0].color)
             }
@@ -323,54 +331,43 @@ export const Sortouch = ({ userId, modelId, active }: PropsArea) => {
         bottom = '8%'
     }
 
-    let containerChatbot = {}
-
-    if (chatActive) {
-        containerChatbot = {
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            flexDirection: 'column',
-            height: height,
-            width: width,
-            position: 'fixed',
-            bottom: bottom,
-            right: '4%',
-            borderRadius: '15px',
-            boxShadow: '0px 0px 15px #b8b8b8',
-            background: 'rgb(255, 255, 255)',
-            zIndex: '1000'
-        }
+    let containerChatbot = {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        flexDirection: 'column',
+        height: height,
+        width: width,
+        position: 'fixed',
+        bottom: bottom,
+        right: '4%',
+        borderRadius: '15px',
+        boxShadow: '0px 0px 15px #b8b8b8',
+        background: 'rgb(255, 255, 255)',
+        zIndex: '1000'
     }
 
     const backResponse = () => {
-        if (beforeSelect) {
-            setResponseSelect(beforeSelect[beforeSelect.length - 2])
-            const stockSelect = beforeSelect
-            let res = stockSelect.slice(0, -1)
-            if (res.length === 0) res[0] = 0
-            setBeforeSelect(res)
-        }
+        setResponseSelect(beforeSelect[beforeSelect.length - 2])
+        const stockSelect = beforeSelect
+        let res = stockSelect.slice(0, -1)
+        if (res.length === 0) res[0] = 0
+        setBeforeSelect(res)
     }
-
-    let class1 = ''
-    let class2 = ''
-    if (!chatActive) class1 = "containerIconChat"
-    else class2 = "divRelativeSortouch"
 
 
     return (
-        <div className={class1} style={containerChatbot}>
+        <div className={!chatActive && "containerIconChat"} style={chatActive ? containerChatbot : null}>
             {chatActive &&
                 <div className="headChatbot">
                     <img onClick={() => { setChatActive(!chatActive) }} alt="close sortouch" src={cross} className="crossChatbot" />
                     <img onClick={reloadFunction} alt="reload sortouch" src={reload} className="reloadChatbot" />
                     <img src={back} className="backIconSortouch" onClick={backResponse} />
-                    <a target="__blank" rel="noopener" href="https://sortouch.com" className="sortouch">Sortouch</a>
+                    <a target="__blank" href="https://sortouch.com" className="sortouch">Sortouch</a>
                 </div>}
-            {!load && !search ?
+            {!load && !(search.length > 0) ?
                 <div className={chatActive ? "contentChatbot" : "contentIcon"}>
-                    <div className={class2}>
+                    <div className={chatActive && "divRelativeSortouch"}>
                         {!chatActive ?
                             <div className="contentIcon">
                                 {textIcon &&
@@ -384,8 +381,8 @@ export const Sortouch = ({ userId, modelId, active }: PropsArea) => {
                             containers.map((container, index) => {
                                 return (
                                     <div className={container.content_type === "question" ? "contentLittleQuestChat" : container.content_type === "response" ? "contentResponseChat" : "contentLittleDestinationChat"}>
-                                        {cardsQuest && Array.isArray(cardsQuest[index]) && cardsQuest[index] !== "none" && container.content_type === "question" &&
-                                            cardsQuest[index].map((card: any) => {
+                                        {Array.isArray(cardsQuest[index]) && container.content_type === "question" &&
+                                            cardsQuest[index].map(card => {
                                                 return (
                                                     Array.isArray(cardsQuest[cardsQuest.length - 2]) && cardsQuest[cardsQuest.length - 2][0].id === card.id ?
                                                         <div id={`questionSortouch${index}`} className="contentQuestChat">
@@ -399,22 +396,22 @@ export const Sortouch = ({ userId, modelId, active }: PropsArea) => {
                                                         </div>
                                                 )
                                             })}
-                                        {cardsRes && Array.isArray(cardsRes[index]) && cardsRes[index] !== "none" && container.content_type === "response" &&
-                                            cardsRes[index].map((card: any) => {
+                                        {Array.isArray(cardsRes[index]) && container.content_type === "response" &&
+                                            cardsRes[index].map(card => {
                                                 return (
-                                                    <div onClick={() => { selectResponse(card.id, index, false); setLoad(true) }} className='containerCardResponse'>
+                                                    <div onClick={() => { selectResponse(card.id, index); setLoad(true) }} className='containerCardResponse'>
                                                         <p id={`container${index}`} className="textCardResChat">{card.content}</p>
                                                     </div>)
                                             })
                                         }
-                                        {cardsCategory && Array.isArray(cardsCategory[index]) && cardsCategory[index] !== "none" && container.content_type === "category" &&
-                                            cardsCategory[index].map((card: any) => {
+                                        {Array.isArray(cardsCategory[index]) && container.content_type === "category" &&
+                                            cardsCategory[index].map(card => {
                                                 return (
-                                                    <form className="containerLittleFormChatbot">
-                                                        <input onChange={takeEmail} type="text" className="inputFormChat" placeholder="email" />
-                                                        <input onChange={takePhone} type="text" className="inputFormChat" placeholder="numéro de téléphone" />
-                                                        <textarea className="inputMessageFormChatbot" placeholder="message" onChange={(e) => { setMessage(e.target.value) }} />
-                                                        <button onClick={() => { sendMail(card.id) }} type="submit" className="sendFormChatbot">Envoyer !</button>
+                                                    <form onSubmit={handleSubmit(() => { sendMail(card.id) })} className="containerLittleFormChatbot">
+                                                        <input ref={send} onChange={takeEmail} type="text" className="inputFormChat" placeholder="email" />
+                                                        <input ref={send} onChange={takePhone} type="text" className="inputFormChat" placeholder="numéro de téléphone" />
+                                                        <textarea ref={send} className="inputMessageFormChatbot" placeholder="message" onChange={getMessage} />
+                                                        <button type="submit" className="sendFormChatbot">Envoyer !</button>
                                                     </form>
                                                 )
                                             })}
@@ -444,17 +441,19 @@ export const Sortouch = ({ userId, modelId, active }: PropsArea) => {
                                 <span className="pointChargementSortouch3" />
                             </div>}
                     </div>
-                    : search!.length > 0 &&
+                    : search.length > 0 &&
                     <div className={chatActive ? "contentChatbot" : "contentIcon"}>
-                        {search!.map((response: any, index) => {
+                        {search.map((response, index) => {
                             return (
                                 <div onClick={() => { selectResponse(response.id, index, true); setLoad(true) }} className='containerCardResponse'>
                                     <p id={`container${index}`} className="textCardResChat">{response.content}</p>
                                 </div>)
                         })}
                     </div>}
-            {chatActive && containers![containers!.length - 1] && containers![containers!.length - 1].content_type !== "category" &&
+            {chatActive && containers[containers.length - 1] && containers[containers.length - 1].content_type !== "category" &&
                 <input placeholder="Rechercher" className="inputSearchSortouch" onChange={searching} />}
         </div >
     )
 }
+
+export default ChatBotArea

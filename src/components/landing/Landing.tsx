@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-// import {Sortouch} from '../sortouch/chatbotArea/ChatBotArea'
+import Sortouch from '../sortouch/chatbotArea/ChatBotArea'
 
 export const Landing = () => {
     const [administrable, setAdministrable] = useState(false)
@@ -117,12 +117,14 @@ export const Landing = () => {
                 {viewAdmin &&
                     <div onClick={() => { setViewAdmin(false) }} className="containerViewTemplate">
                         <button className="buttonClosePurchase">Fermer</button>
-                        <img className="demoAdminView" src={require('../images/demo-admin.gif')} alt="démo partie admin" />
+                        <iframe className="iframePresentation"
+                        src="https://www.youtube.com/embed/GZzbhv_EXHY" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
                     </div>}
                 {viewShop &&
                     <div onClick={() => { setViewShop(false) }} className="containerViewTemplate">
                         <button className="buttonClosePurchase">Fermer</button>
-                        <img className="demoAdminView" src={require('../images/demo-shop.gif')} alt="démo partie admin" />
+                        <iframe className="iframePresentation"
+                        src="https://www.youtube.com/embed/1gv-8KfZARk" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
                     </div>}
                 <div className="containerLogoLanding">
                     <img className="logoLanding" src={require('../images/logo.png')} alt="logo le bon ecommerce" />
@@ -131,7 +133,7 @@ export const Landing = () => {
                 <div className="containerTextHeadLanding">
                     <h3 className="text" style={{ fontSize: '18px' }}>« Le prix d'un e-commerce peut varier de 5000€ à plus de 500 000€ selon les "experts" »<br /><br /></h3>
                     <h2 className="text" style={{ fontSize: '20px', fontWeight: 'normal' }}>Nous ne sommes pas d'accord avec eux.<br />
-                    Tout le monde devrait pouvoir lancer son business sans devoir faire un prêt à la banque...<br /><br /></h2>
+                    Tout le monde devrait pouvoir lancer son business sans devoir faire un prêt à la banque.<br /><br /></h2>
                     <h3 style={{ marginBottom: '60px', fontSize: '20px', fontWeight: 'normal' }} className="text">C'est pourquoi nous avons développé les meilleurs outils
                     <span style={{ fontWeight: "bold" }}> pour vous</span> créer une boutique en ligne <span style={{ fontWeight: "bold" }}> à votre image </span>
                     sans avoir à vider son compte épargne.</h3>
@@ -186,8 +188,8 @@ export const Landing = () => {
                     Tous vos articles seront affichés sur cette partie avec leur image principale, leur prix et leur nom<br /><br />
                     Si un visiteur de votre site clique sur l'article, il aura alors accès à tous les détails de l'article que vous aurez référencé<br /><br />
                     Il pourra alors cliquer sur le bouton "commander" et payer l'article</p>
-                        <p onClick={() => {return(setBoutique(false), setGestion(true))}} className="linkLanding">gestion commandes et paiements</p>
-                        <button onClick={() => {setViewShop(true)}} style={{ marginTop: '35px' }} className="button">Voir démo</button>
+                        <p onClick={() => { return (setBoutique(false), setGestion(true)) }} className="linkLanding">gestion commandes et paiements</p>
+                        <button onClick={() => { setViewShop(true) }} style={{ marginTop: '35px' }} className="button">Voir démo</button>
                     </div>}
 
                 {custom &&
@@ -250,7 +252,7 @@ export const Landing = () => {
                     </div>}
 
             </div>
-            {/*<Sortouch userId={351} modelId={431} active={false}/>*/}
+            <Sortouch userId={351} modelId={431} active={false} />
         </div>
     )
 }

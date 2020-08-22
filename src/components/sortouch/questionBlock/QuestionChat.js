@@ -1,23 +1,22 @@
 import React, {useEffect, useState} from 'react'
-import {stringProps} from '../types'
 
-export const Questionchat = ({text} : stringProps) => {
-    const [totalQuestion, setTotalQuestion] = useState<any[]>()
+const Questionchat = (props) => {
+    const [totalQuestion, setTotalQuestion] = useState([])
     
 
     useEffect(() => {
-        printText(text)
-    }, [text])
+        printText(props.text)
+    }, [props.text])
 
 
-    const printText = (text : string) => {
-        if(text){
+    const printText = (text) => {
+        if(props.text){
             let index = 0
             let question = text.split('')
-            let stockQuestion : any[] = []
+            let stockQuestion = []
             const questionPrint = setInterval(() => {
                 stockQuestion = [...stockQuestion, question[index]]
-                setTotalQuestion([totalQuestion, stockQuestion])
+                setTotalQuestion([...totalQuestion, stockQuestion])
                 index++
                 if(index === question.length){
                     clearInterval(questionPrint)
