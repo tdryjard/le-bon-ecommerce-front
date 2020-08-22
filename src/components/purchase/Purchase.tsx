@@ -28,8 +28,11 @@ export const Purchase = () => {
         if (e.target.files) {
             const file: any = e.target.files[0];
             if (file) {
-                if (file.size > 760000) {
-                    setAlert(`l'image ne doit pas dépasser 750ko`)
+                if (file.size > 760000 && typeImg === 'logo') {
+                    setAlert(`le logo ne doit pas dépasser 750ko`)
+                }
+                else if (file.size > 3600000 && typeImg === 'illustration'){
+                    setAlert(`l'illustration ne doit pas dépasser 3.5Mo`)
                 }
                 else {
                     e.preventDefault();
