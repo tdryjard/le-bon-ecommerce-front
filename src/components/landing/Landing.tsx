@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Sortouch from '../sortouch/chatbotArea/ChatBotArea'
+import {Footer} from '../footer/Footer'
 
 export const Landing = () => {
     const [administrable, setAdministrable] = useState(false)
@@ -253,6 +254,7 @@ export const Landing = () => {
 
             </div>
             <Sortouch userId={351} modelId={431} active={false} />
+            <Footer/>
         </div>
     )
 }
