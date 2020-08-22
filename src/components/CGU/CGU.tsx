@@ -34,7 +34,7 @@ export const CGU = () => {
             Nous ne pourrons pas être tenus responsable en cas d’utilisation frauduleuse de votre site e-commerce développé par un tiers de le-bon-ecommerce.fr.<br /><br />
             Vos clés d’acceptation de paiement Stripe.com sont entrées dans vos variables de base de données par nos soins en suivant l’exactitude des informations fournies par vous lors de la commande de votre site.
             En cas d’erreur de votre part lors de la transmission des informations lors de la commande de votre site, vous pouvez nous contacter afin que nous corrigions gratuitement ces informations dans un délai de 14 jours si celles-ci concernent vos clés API Stripe.com.<br /><br />
-            La transmission des bonnes informations est de votre responsabilité, cela est également valable pour les conditions générales et de ventes et conditions d'utilisations de votre site que VOUS NOUS transmettez lors du renseignement de vos informations.
+            La transmission des bonnes informations est de votre responsabilité, cela est également valable pour les conditions générales et de ventes et conditions d'utilisation de votre site que VOUS NOUS transmettez lors du renseignement de vos informations.
 
             En cas de manquement ou d’erreurs dans les mentions légales de votre site, celles-ci seront e votre responsabilité.
         </p><br /><br /><br /><br />

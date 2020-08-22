@@ -28,4 +28,5 @@ export type PropsBuy = {
     color2: string
     template: number
     domain: string
+    conditions : string
 }

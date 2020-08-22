@@ -22,6 +22,7 @@ export const Purchase = () => {
     const [resDomain, setResDomain] = useState<string[]>()
     const [domainSelect, setDomainSelect] = useState('')
     const [load, setLoad] = useState(false)
+    const [conditions, setConditions] = useState('')
 
     const getFile = (e: React.ChangeEvent<HTMLInputElement>, typeImg: string) => {
         if (e.target.files) {
@@ -101,7 +102,7 @@ export const Purchase = () => {
     }
 
     const verifStep6 = () => {
-        if (!logo) setAlert('Veuillez ajouter le logo de votre site')
+        if (!conditions) setAlert(`Veuillez entrer vos conditions générales de vente et d'utilisation de votre site`)
         else {
             setAlert('')
             setStep(8)
@@ -109,7 +110,7 @@ export const Purchase = () => {
     }
 
     const verifStep7 = () => {
-        if (!illustration) setAlert(`Veuillez ajouter l'illustration de votre page d'accueil`)
+        if (!logo) setAlert('Veuillez ajouter le logo de votre site')
         else {
             setAlert('')
             setStep(9)
@@ -117,11 +118,19 @@ export const Purchase = () => {
     }
 
     const verifStep8 = () => {
+        if (!illustration) setAlert(`Veuillez ajouter l'illustration de votre page d'accueil`)
+        else {
+            setAlert('')
+            setStep(10)
+        }
+    }
+
+    const verifStep9 = () => {
         if (!(color1 && color2)) setAlert('Veuillez entrer les deux couleurs principales de votre site')
         else if ((color1.split('')[0] !== '#' || color2.split('')[0] !== '#')) setAlert('Veuillez entrer des couleurs en format "HEX" (hexadécimal) commençants par #')
         else {
             setAlert('')
-            setStep(10)
+            setStep(11)
         }
     }
 
@@ -373,6 +382,21 @@ export const Purchase = () => {
                     <div className="containerStepImg">
                         <img className="stepPurchase" alt="step2" src={require('./images/step5.png')} />
                     </div>
+                    <h1 className="titlePurchase">Les condtions générales d'utilisation et de vente de votre site</h1>
+                    <textarea maxLength={10000} onChange={(e) => { setConditions(e.target.value) }} placeholder="Vos condtions générales d'utilisation et de vente" className="textAreaPurchase" />
+                    {alert && <p className="text" style={{ marginTop: '10px', marginBottom: '10px', textAlign: 'center' }}>{alert}</p>}
+                    {window.innerWidth > 1250 ?
+                        <button onClick={verifStep6} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Suivant</button>
+                        :
+                        <button onClick={verifStep6} style={{ marginTop: '50px', marginBottom: '50px' }} className="button">Suivant</button>}
+                </div>
+            }
+            {
+                step === 8 &&
+                <div className="contentPurchase">
+                    <div className="containerStepImg">
+                        <img className="stepPurchase" alt="step2" src={require('./images/step5.png')} />
+                    </div>
                     <h1 className="titlePurchase">Entrez les informations de votre future page d'accueil</h1>
                     <div className="upload-btn-wrapper">
                         <button className="btn">Votre logo</button>
@@ -385,13 +409,13 @@ export const Purchase = () => {
                         <img src={logo} className="logoPurchase" alt="logo" />}
                     {alert && <p className="textAlert" style={{ marginTop: '100px', marginBottom: '10px', textAlign: 'center' }}>{alert}</p>}
                     {window.innerWidth > 1250 ?
-                        <button onClick={verifStep6} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Suivant</button>
+                        <button onClick={verifStep7} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Suivant</button>
                         :
-                        <button onClick={verifStep6} style={{ marginTop: '150px', marginBottom: '50px' }} className="button">Suivant</button>}
+                        <button onClick={verifStep7} style={{ marginTop: '150px', marginBottom: '50px' }} className="button">Suivant</button>}
                 </div>
             }
             {
-                step === 8 &&
+                step === 9 &&
                 <div className="contentPurchase">
                     <div className="containerStepImg">
                         <img className="stepPurchase" alt="step2" src={require('./images/step5.png')} />
@@ -408,25 +432,25 @@ export const Purchase = () => {
                         <img src={illustration} className="illustrationPurchase" alt="logo" />}
                     {alert && <p className="textAlert" style={{ marginTop: '100px', marginBottom: '10px', textAlign: 'center' }}>{alert}</p>}
                     {window.innerWidth > 1250 ?
-                        <button onClick={verifStep7} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Suivant</button>
+                        <button onClick={verifStep8} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Suivant</button>
                         :
-                        <button onClick={verifStep7} style={{ marginTop: '200px', marginBottom: '50px' }} className="button">Suivant</button>}
+                        <button onClick={verifStep8} style={{ marginTop: '200px', marginBottom: '50px' }} className="button">Suivant</button>}
                 </div>
             }
             {
-                step === 9 &&
+                step === 10 &&
                 <div className="contentPurchase">
                     <h1 style={{ marginBottom: '30px' }} className="titlePurchase">Entrez les deux couleurs principales de votre site</h1>
                     <ChromePicker />
                     <input maxLength={250} style={{ marginBottom: '20px', marginTop: '50px' }} onChange={(e) => { setColor1(e.target.value) }} placeholder="#FFFFFF couleur principale" className="input" />
                     <input maxLength={250} onChange={(e) => { setColor2(e.target.value) }} placeholder="#FFFFFF couleur secondaire" className="input" />
                     {window.innerWidth > 1250 ?
-                        <button onClick={verifStep8} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Suivant</button>
+                        <button onClick={verifStep9} style={{ position: 'absolute', bottom: '100px', width: '150px' }} className="button">Suivant</button>
                         :
-                        <button onClick={verifStep8} style={{ marginTop: '150px', marginBottom: '50px' }} className="button">Suivant</button>}
+                        <button onClick={verifStep9} style={{ marginTop: '150px', marginBottom: '50px' }} className="button">Suivant</button>}
                 </div>
             }
-            { step === 10 && <Buy domain={domainSelect} priceId={'price_1HGvKQKleZ50Ivn6n79hKB9p'} title={title} slogan={slogan} describe={describe} template={template} publicKey={publicKey} privateKey={privateKey} color1={color1} color2={color2} logo={logo} illustration={illustration} />}
+            { step === 11 && <Buy conditions={conditions} domain={domainSelect} priceId={'price_1HGvKQKleZ50Ivn6n79hKB9p'} title={title} slogan={slogan} describe={describe} template={template} publicKey={publicKey} privateKey={privateKey} color1={color1} color2={color2} logo={logo} illustration={illustration} />}
         </div >
     )
 }

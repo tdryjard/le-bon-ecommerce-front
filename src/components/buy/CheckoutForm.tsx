@@ -3,7 +3,7 @@ import url from '../../api/url'
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { PropsBuy } from '../../types'
 
-export const CheckoutForm = ({ domain, priceId, title, slogan, describe, template, publicKey, privateKey, color1, color2, logo, illustration }: PropsBuy) => {
+export const CheckoutForm = ({ conditions, domain, priceId, title, slogan, describe, template, publicKey, privateKey, color1, color2, logo, illustration }: PropsBuy) => {
 
 
     const [email, setEmail] = React.useState<string>('')
@@ -158,7 +158,8 @@ export const CheckoutForm = ({ domain, priceId, title, slogan, describe, templat
                         private_stripe: privateKey,
                         color1: color1,
                         color2: color2,
-                        domain: domain
+                        domain: domain,
+                        conditions: conditions
                     })
                 })
                 if (resPurchase) setValidPurchase(true)
