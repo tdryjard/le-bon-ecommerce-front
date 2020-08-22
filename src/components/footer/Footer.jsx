@@ -5,7 +5,7 @@ import './Footer.scss'
 export const Footer = () => {
     return(
         <div className="footer">
-            <Link to="/CGU" className="linkFooter">Conditions générales utilisateurs</Link>
+            <Link to="/CGU" className="linkFooter">Conditions générales d'utilisation</Link>
         </div>
     )
 }

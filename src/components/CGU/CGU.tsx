@@ -10,7 +10,7 @@ export const CGU = () => {
                     le-bon-ecommerce.fr est une plateforme de développement et déploiement de site web spécialisé dans l’édition de boutique en ligne pour particulier ou professionnels.
             Plateforme développée par Thomas Dryjard Des Garniers n° de SIRET 85372114000012, numéro de téléphone: 0676323576, adresse de domiciliation : 12 rue marc dequoy, 41000 Blois, France<br /><br />
 
-            La réalisation des sites web sont pris en charge principalement par Thomas Dryjard Des Garniers et d’autres développeurs web professionnels en sous-traitance.<br/>
+            La réalisation des sites web est prise en charge principalement par Thomas Dryjard Des Garniers et d’autres développeurs web professionnels en sous-traitance.<br/>
             Les présentes Conditions générales ont pour objet de définir les modalités de création d’utilisation des sites web développés par les différents tiers du bon-ecommerce ainsi que les futurs possesseurs de ces sites web.<br /><br />
             le-bon-ecommerce.fr se réserve le droit, à tout moment et à sa seule discrétion, de modifier ou mettre à jour les présentes Conditions, en publiant sur le Site et/ou par envoi d’une notification par email tout changement, ajout ou mise à jour, dans la mesure du possible 30 jours au moins avant son entrée en vigueur. Ces Conditions d’Utilisation régissent la relation entre “le-bon-ecommerce.fr”, “Nous”, “Thomas Dryjard Des Garniers” et Vous, dénommé "L'utilisateur" ou "Le Client" ou "Vous" y compris si vous représentez un employeur ou un client.
             Les conditions particulières éventuellement négociées entre le-bon-ecommerce.fr et l’Utilisateur prévalent sur les présentes Conditions générales.
@@ -26,7 +26,7 @@ export const CGU = () => {
         Netlify.com<br />
         Heroku.com<br /><br />
         Nous mettons en place le maximum de normes en termes de sécurités afin de protéger la base de données et le serveur de votre site via des vérifications Json Web Token, vérification d'autorisation de cookies et Cors.
-        Marlgré les différentes normes de sécurité mises en places, nous ne pouvons garantir une protection inviolable de votre serveur et base de données si une personne malveillante porte atteinte aux données de votre site ou si vous partagez vos identifiants d’administration de votre site, le-bon-ecommerce.fr ainsi que toutes les personnes travaillant à la réalisation de vos sites, ne pourront pas être tenues responsables.
+        Malgré les différentes normes de sécurité mises en place, nous ne pouvons garantir une protection inviolable de votre serveur et base de données si une personne malveillante porte atteinte aux données de votre site ou si vous partagez vos identifiants d’administration de votre site, le-bon-ecommerce.fr ainsi que toutes les personnes travaillant à la réalisation de vos sites, ne pourront pas être tenues responsables.
         </p><br /><br /><br /><br />
                 <h4 className="title">UTILISATIONS INTERDITES</h4><br /><br />
                 <p className="text">
@@ -34,7 +34,7 @@ export const CGU = () => {
             Nous ne pourrons pas être tenus responsable en cas d’utilisation frauduleuse de votre site e-commerce développé par un tiers de le-bon-ecommerce.fr.<br /><br />
             Vos clés d’acceptation de paiement Stripe.com sont entrées dans vos variables de base de données par nos soins en suivant l’exactitude des informations fournies par vous lors de la commande de votre site.
             En cas d’erreur de votre part lors de la transmission des informations lors de la commande de votre site, vous pouvez nous contacter afin que nous corrigions gratuitement ces informations dans un délai de 14 jours si celles-ci concernent vos clés API Stripe.com.<br /><br />
-            La transmission des bonnes informations est de votre responsabilité, cela est également valable pour les conditions générales et de ventes et conditions d’utilisateurs de votre site que VOUS NOUS transmettez lors du renseignement de vos informations.
+            La transmission des bonnes informations est de votre responsabilité, cela est également valable pour les conditions générales et de ventes et conditions d'utilisations de votre site que VOUS NOUS transmettez lors du renseignement de vos informations.
 
             En cas de manquement ou d’erreurs dans les mentions légales de votre site, celles-ci seront e votre responsabilité.
         </p><br /><br /><br /><br />
